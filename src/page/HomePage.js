@@ -1,67 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, Image} from 'react-native';
-import {createBottomTabNavigator} from 'react-navigation';
-import PopularPage from './PopularPage';
-import TrendingPage from './TrendingPage';
-import FavoritePage from './FavoritePage';
-import MyPage from './MyPage';
+import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
+import NavigationUtil from '../navigator/NavigationUtil';
 export default class HomePage extends Component{
-  tabNavigator() {
-    return createBottomTabNavigator({
-        PopularPage: {
-            screen: PopularPage,
-            navigationOptions: {
-                tabBarLabel: '热门',
-                tabBarIcon: () => (
-                    <Image 
-                      source={require('../image/hot.png')}
-                      style={styles.icon}
-                    />
-                )
-            }
-        },
-        TrendingPage: {
-            screen: TrendingPage,
-            navigationOptions: {
-                tabBarLabel: '趋势',
-                tabBarIcon: () => (
-                    <Image 
-                      source={require('../image/trending.png')}
-                      style={styles.icon}
-                    />
-                )
-            }
-        },
-        FavoritePage: {
-            screen: FavoritePage,
-            navigationOptions: {
-                tabBarLabel: '收藏',
-                tabBarIcon: () => (
-                    <Image 
-                      source={require('../image/stars.png')}
-                      style={styles.icon}
-                    />
-                )
-            }
-        },
-        MyPage: {
-            screen: MyPage,
-            navigationOptions: {
-                tabBarLabel: '我的',
-                tabBarIcon: () => (
-                    <Image 
-                      source={require('../image/me.png')}
-                      style={styles.icon}
-                    />
-                )
-            }
-        }
-    });
-  }
-
   render() {
-    const Tab = this.tabNavigator();
-    return <Tab />;
+    // 存储外层路由,用于多层navigator嵌套
+    NavigationUtil.navigation = this.props.navigation;
+    return <DynamicTabNavigator />;
   }
 }
 
