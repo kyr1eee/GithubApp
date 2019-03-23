@@ -2,23 +2,11 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 
-export default class WelcomePage extends Component{
-
-  componentDidMount() {
-    this.timer = setTimeout(() => {
-        const {navigation} = this.props;
-        navigation.navigate("Main");
-    }, 1000)
-  }
-
-  componentWillUnmount() {
-    this.timer && clearTimeout(this.timer);
-  }
-
+export default class DetailPage extends Component{
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to Kyr1eee Github App</Text>
+        <Text style={styles.welcome}>Detail</Text>
       </View>
     );
   }
