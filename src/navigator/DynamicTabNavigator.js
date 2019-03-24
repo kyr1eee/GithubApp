@@ -5,19 +5,27 @@ import TrendingPage from '../page/TrendingPage';
 import FavoritePage from '../page/FavoritePage';
 import MyPage from '../page/MyPage';
 import NavigationUtil from './NavigationUtil';
+import {connect} from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import TabBar from '../components/TabBar';
-export default class DynamicTabNavigator extends Component {
+class DynamicTabNavigator extends Component {
     constructor(props) {
         super(props);
     }
 
     tabNavigator() {
+        if(this.tabs) {
+            // 避免this.props.theme改变导致重新render
+            return this.tabs;
+        }
         const {PopularPage, TrendingPage, FavoritePage, MyPage} = Tabs;
         const dynamicTab = {PopularPage, TrendingPage, FavoritePage}; // 根据需要动态订制tab
         PopularPage.navigationOptions.tabBarLabel = '热门'; // 动态配置Tab属性
-        return createBottomTabNavigator(dynamicTab, {
-            tabBarComponent: TabBar
+        return this.tabs = createBottomTabNavigator(dynamicTab, {
+            tabBarComponent: props => {
+                // 传递props
+                return <TabBar theme={this.props.theme} {...props} />;
+            }
         });
     }
 
@@ -77,3 +85,9 @@ const Tabs = {
         }
     }
 };
+
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
+});
+
+export default connect(mapStateToProps)(DynamicTabNavigator);
