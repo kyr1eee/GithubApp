@@ -9,6 +9,22 @@ const navState = RootNavigator.router.getStateForAction(RootNavigator.router.get
 
 /**
  * 2. 创建自己的 navigation reducer
+ * 
+ * @nextState
+ * index: number;
+ * routes: NavigationRoute[];
+ * isTransitioning: boolean;
+ * key: string;
+ * params: NavigationParams;
+ * 
+ * @NavigationRoute
+ * key: string;
+ * index: number;   // Index that represents the depth of the stack
+ * routeName: string;
+ * path?: string;
+ * params?: Params;
+ * routes: NavigationRoute[];
+ * isTransitioning: boolean;
  */
 const navReducer = (state = navState, action) => {
     const nextState = RootNavigator.router.getStateForAction(action, state);
