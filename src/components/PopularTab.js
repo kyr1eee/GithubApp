@@ -13,6 +13,10 @@ class PopularTab extends Component {
                     {navigation: this.props.navigation},
                     'DetailPage'
                 )}>跳转详情页</Text>
+                <Text onPress={() => NavigationUtil.turnToPage(
+                    {navigation: this.props.navigation},
+                    'AsyncStoreDemoPage'
+                )}>跳转离线缓存测试页</Text>
             </View>
         );
     }

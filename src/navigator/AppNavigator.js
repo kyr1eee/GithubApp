@@ -9,6 +9,7 @@ import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware, reduxifyNavigator} from 'react-navigation-redux-helpers';
+import AsyncStoreDemoPage from '../test/asyncStoreDemoPage';
 export const rootCom = 'Init';  // 设置根路由
 
 const InitNavigator = createStackNavigator({
@@ -32,6 +33,12 @@ const MainNavigator = createStackNavigator({
         navigationOptions: {
             // header: null,
         }
+    },
+    AsyncStoreDemoPage: {
+        screen: AsyncStoreDemoPage,
+        navigationOptions: {
+            header: null
+        }
     }
 });
 
@@ -54,6 +61,12 @@ export const middleware = createReactNavigationReduxMiddleware(
 
 /**
  * 2.将根导航器组件传递给reduxifyNavigator函数,并返回一个将navigation state 和 dispatch 函数作为props的新组件
+ * @NavigationState
+ * index: number;
+ * routes: NavigationRoute[];
+ * isTransitioning: boolean;
+ * key: string;
+ * params: NavigationParams;
  */
 
 const AppWithNavigationState = reduxifyNavigator(RootNavigator, 'root');
