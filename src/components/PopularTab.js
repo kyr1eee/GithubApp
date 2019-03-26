@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, FlatList, RefreshControl} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
 import {connect} from 'react-redux';
 import action from '../action/index';
-
+import PopularItem from './PopularItem';
 const SEARCH_REPOSITORIES_URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_SORT = '&sort=stars';
 const THEME_COLOR = 'blue';
@@ -31,11 +31,7 @@ class PopularTab extends Component {
     renderItem(data) {
         const item = data.item;
         return (
-            <View style={styles.itemWrapper}>
-                <Text style={styles.itemContent}>
-                    {JSON.stringify(item)}
-                </Text>
-            </View>
+            <PopularItem item={item} onSelect={() => {}}/>
         )
     }
 
