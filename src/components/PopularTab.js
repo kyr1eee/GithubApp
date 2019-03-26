@@ -1,22 +1,71 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, FlatList, RefreshControl} from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil';
+import {connect} from 'react-redux';
+import action from '../action/index';
+
+const SEARCH_REPOSITORIES_URL = 'https://api.github.com/search/repositories?q=';
+const QUERY_SORT = '&sort=stars';
+const THEME_COLOR = 'blue';
 class PopularTab extends Component {
-    render() {
+    constructor(props) {
+        super(props);
         const {tabLabel} = this.props;
+        this.storeName = tabLabel;
+        this.renderItem = this.renderItem.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    loadData() {
+        const {onLoadPopularData} = this.props;
+        const url = this.genFetchUrl(this.storeName);
+        onLoadPopularData(this.storeName, url)
+    }
+
+    genFetchUrl(key) {
+        return SEARCH_REPOSITORIES_URL + key + QUERY_SORT;
+    }
+
+    renderItem(data) {
+        const item = data.item;
+        return (
+            <View style={styles.itemWrapper}>
+                <Text style={styles.itemContent}>
+                    {JSON.stringify(item)}
+                </Text>
+            </View>
+        )
+    }
+
+    render() {
+        const {popular} = this.props;
+        let store = popular[this.storeName];    // 动态获取state
+        if(!store) {
+            store = {
+                items: [],
+                ifLoading: false,
+            }
+        }
         return (
             <View style={styles.container}>
-                <Text>{tabLabel}</Text>
-                {/* HomePage Navigator中的PopularPage中的topNavigator无法跳转至与HomePage同层的DetailPage, 因为存在多重Navigator,
-                因此在HomePage处缓存this.props.navigation于NavigationUtil.navigation中 */}
-                <Text onPress={() => NavigationUtil.turnToPage(
-                    {navigation: this.props.navigation},
-                    'DetailPage'
-                )}>跳转详情页</Text>
-                <Text onPress={() => NavigationUtil.turnToPage(
-                    {navigation: this.props.navigation},
-                    'AsyncStoreDemoPage'
-                )}>跳转离线缓存测试页</Text>
+                <FlatList
+                    data={store.items}
+                    renderItem={data => this.renderItem(data)}
+                    keyExtractor={item => '' + item.id}
+                    refreshControl={
+                        <RefreshControl 
+                            title={'loading'}
+                            tintColor={THEME_COLOR}
+                            colors={[THEME_COLOR]}
+                            refreshing={store.isLoading}
+                            onRefresh={() => this.loadData()}
+                            tintColor={THEME_COLOR}
+                        />
+                    }
+                />
             </View>
         );
     }
@@ -28,7 +77,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
-      },
+    },
+    itemWrapper: {
+
+    },
+    itemContent: {
+        backgroundColor: '#faa'
+    }
 });
 
-export default PopularTab;
+const mapStateToProps = state => ({
+    popular: state.popular
+});
+
+// 半小时找bug之 action.onLoadPopularData 忘记传参
+const mapDispatchToProps = dispatch => ({
+    onLoadPopularData: (storeName, url) => {dispatch(action.onLoadPopularData(storeName, url))}
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopularTab);

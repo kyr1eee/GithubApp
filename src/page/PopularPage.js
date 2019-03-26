@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, FlatList} from 'react-native';
 import {createMaterialTopTabNavigator} from 'react-navigation';
+import {connect} from 'react-redux';
+import action from '../action/index';
 import PopularTab from '../components/PopularTab';
 export default class PopularPage extends Component{
   constructor(props) {
