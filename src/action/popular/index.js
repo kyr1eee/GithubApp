@@ -7,7 +7,7 @@ import DataStore from '../../common/data/DataStore';
  */
 export function onLoadPopularData(storeName, url) {
     return dispatch => {
-        dispatch({type: types.POPULAR_REFRESH, storeName: storeName});
+        dispatch({type: types.POPULAR_REFRESH, storeName});
         let dataStore = new DataStore();
         dataStore.fetchData(url)
             .then(data => {

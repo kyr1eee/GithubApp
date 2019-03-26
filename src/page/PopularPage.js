@@ -15,7 +15,7 @@ export default class PopularPage extends Component{
       this.tabNames.forEach((item, index) => {
         tabs[`tab${index}`] = {
             // 切换Tab传递参数进组件
-            screen: props => <PopularTab {...this.props} tabLabel={item}/>,
+            screen: (props) => <PopularTab {...this.props} tabLabel={item}/>,
             navigationOptions: {
                 title: item,
             },

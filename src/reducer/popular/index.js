@@ -25,7 +25,8 @@ export default function onAction(state = initState, action) {
             return {
                 ...state,
                 [action.storeName]: {
-                    ...action.storeName,
+                    // n小時 bug 報錯之 ...action.storeName 解構字符串報錯, 因此改為...[action.storeName]
+                    ...[action.storeName],
                     items: action.items,
                     isLoading: false,
                 }
@@ -34,7 +35,7 @@ export default function onAction(state = initState, action) {
             return {
                 ...state,
                 [action.storeName]: {
-                    ...action.storeName,
+                    ...[action.storeName],
                     isLoading: true,
                 }
             };
@@ -42,7 +43,7 @@ export default function onAction(state = initState, action) {
             return {
                 ...state,
                 [action.storeName]: {
-                    ...action.storeName,
+                    ...[action.storeName],
                     isLoading: false,
                 }
             };

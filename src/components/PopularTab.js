@@ -12,7 +12,6 @@ class PopularTab extends Component {
         super(props);
         const {tabLabel} = this.props;
         this.storeName = tabLabel;
-        this.renderItem = this.renderItem.bind(this);
     }
 
     componentDidMount() {
@@ -46,7 +45,7 @@ class PopularTab extends Component {
         if(!store) {
             store = {
                 items: [],
-                ifLoading: false,
+                isLoading: false,
             }
         }
         return (
@@ -92,7 +91,7 @@ const mapStateToProps = state => ({
 
 // 半小时找bug之 action.onLoadPopularData 忘记传参
 const mapDispatchToProps = dispatch => ({
-    onLoadPopularData: (storeName, url) => {dispatch(action.onLoadPopularData(storeName, url))}
-});
+    onLoadPopularData: (storeName, url) => dispatch(action.onLoadPopularData(storeName, url))}
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PopularTab);
