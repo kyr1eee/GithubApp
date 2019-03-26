@@ -38,7 +38,7 @@ class PopularTab extends Component {
     }
 
     loadData(loadMore) {
-        const {onLoadPopularData} = this.props;
+        const {onLoadPopularData, onLoadMorePopularData} = this.props;
         const store= this._store();
         const url = this.genFetchUrl(this.storeName);
         if(loadMore) {
@@ -83,12 +83,12 @@ class PopularTab extends Component {
                     keyExtractor={item => '' + item.id}
                     refreshControl={
                         <RefreshControl 
-                            title={'loading'}
+                            title='Loading...'
                             tintColor={THEME_COLOR}
+                            titleColor={THEME_COLOR}
                             colors={[THEME_COLOR]}
                             refreshing={store.isLoading}
                             onRefresh={() => this.loadData()}
-                            tintColor={THEME_COLOR}
                         />
                     }
                     ListFooterComponent={() => this.genIndicator()}
